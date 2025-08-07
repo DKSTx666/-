@@ -210,6 +210,15 @@
   <div class="blog-fab" onclick="goToBlog()" title="صفحة المدونات">📖</div>
 </div>
 
+  function goToIndex() {
+    window.location.href = "index-videos.html";
+  }
+
+  function goToBlog() {
+    window.location.href = "index-txt.html";
+  }
+</script>
+</div>
 <!-- 👑 نافذة تكبير الصورة -->
 <div id="imagePreview" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
   <img id="previewImg" src="" alt="Preview" style="max-width:90vw; max-height:80vh; border-radius:20px; box-shadow:0 0 20px violet;">
@@ -260,31 +269,7 @@
   }
 </style>
 </div>
-<script>
-  function scaleToFitScreen() {
-    // عرض الشاشة الحالي
-    const screenWidth = window.innerWidth;
 
-    // عرض التصميم الأصلي (480 بكسل)
-    const baseWidth = 480;
-
-    // احسب نسبة الزوم
-    const scale = screenWidth / baseWidth;
-
-    // طبّق الزوم على body
-    document.body.style.transform = `scale(${scale})`;
-    document.body.style.transformOrigin = 'top left';
-
-    // عالج الحجم الزائد
-    document.body.style.width = baseWidth + 'px';
-  }
-
-  // نفّذ عند تحميل الصفحة
-  window.onload = scaleToFitScreen;
-
-  // أعِد الزوم عند تغيير حجم الشاشة
-  window.onresize = scaleToFitScreen;
-</script>
 </body>
 </html>
 
