@@ -3,9 +3,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=480, initial-scale=1.0, maximum-scale=1.0">
   <title>طائفة الظلال - العنقاء_666</title>
   <style>
     body {
@@ -181,7 +179,7 @@
   <div class="posts-container">
     <a href="#img15"><img src="photo15.png" class="post-img"></a>
     <a href="#img14"><img src="photo14.png" class="post-img"></a>
-    <a href="#img13"><img src="20250807_101709.jpg" class="post-img"></a>
+    <a href="#img13"><img src="photo13.png" class="post-img"></a>
   </div>
 
   <div class="posts-container">
@@ -263,16 +261,30 @@
 </style>
 </div>
 <script>
-  function goToIndex() {
-    window.location.href = "index-videos.html";
+  function scaleToFitScreen() {
+    // عرض الشاشة الحالي
+    const screenWidth = window.innerWidth;
+
+    // عرض التصميم الأصلي (480 بكسل)
+    const baseWidth = 480;
+
+    // احسب نسبة الزوم
+    const scale = screenWidth / baseWidth;
+
+    // طبّق الزوم على body
+    document.body.style.transform = `scale(${scale})`;
+    document.body.style.transformOrigin = 'top left';
+
+    // عالج الحجم الزائد
+    document.body.style.width = baseWidth + 'px';
   }
 
-  function goToBlog() {
-    window.location.href = "index-txt.html";
-  }
+  // نفّذ عند تحميل الصفحة
+  window.onload = scaleToFitScreen;
+
+  // أعِد الزوم عند تغيير حجم الشاشة
+  window.onresize = scaleToFitScreen;
 </script>
 </body>
 </html>
-
-
 
