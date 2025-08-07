@@ -206,8 +206,8 @@
     <a href="#img1"><img src="photo1.png" class="post-img"></a>
   </div>
 
-  <div class="index-videos.html" onclick="goToIndex()" title="صفحة الفيديوهات">🎥</div>
-  <div class="index-txt.html" onclick="goToBlog()" title="صفحة المدونات">📖</div>
+  <div class="video-fab" onclick="goToIndex()" title="صفحة الفيديوهات">🎥</div>
+  <div class="blog-fab" onclick="goToBlog()" title="صفحة المدونات">📖</div>
 </div>
 
 <!-- 👑 نافذة تكبير الصورة -->
@@ -260,8 +260,15 @@
   }
 </style>
 </div>
+<script>
+  function goToIndex() {
+    window.location.href = "index-videos.html";
+  }
 
+  function goToBlog() {
+    window.location.href = "index-txt.html";
+  }
+</script>
 </body>
 </html>
-
 
