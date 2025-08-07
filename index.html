@@ -1,3 +1,4 @@
+
 <!-- نفس البداية -->
 <!DOCTYPE html>
 <html lang="ar">
@@ -166,7 +167,6 @@
   </div>
 
   <header>
-    <!-- 👑 أزلنا الرابط -->
     <div class="profile-pic" onclick="sendToTelegram('👤 ضغط على صورة البروفايل')"></div>
   </header>
   
@@ -206,69 +206,68 @@
     <a href="#img1"><img src="photo1.png" class="post-img"></a>
   </div>
 
-  <div class="video-fab" onclick="goto("video")" title="صفحة الفيديوهات">🎥</div>
-  <div class="blog-fab" onclick="goto("blog")" title="صفحة المدونات">📖</div>
-</div>
+  <!-- ✅ أزرار التنقل بعد التعديل -->
+  <div class="video-fab" onclick="goTo('video')" title="صفحة الفيديوهات">🎥</div>
+  <div class="blog-fab" onclick="goTo('blog')" title="صفحة المدونات">📖</div>
 
-<!-- 👑 نافذة تكبير الصورة -->
-<div id="imagePreview" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
-  <img id="previewImg" src="" alt="Preview" style="max-width:90vw; max-height:80vh; border-radius:20px; box-shadow:0 0 20px violet;">
-  <a id="downloadBtn" href="#" download style="margin-top:20px; padding:10px 20px; background:violet; color:white; border:none; border-radius:10px; font-size:16px; text-decoration:none; animation:pulse 1.5s infinite;">تحميل الصورة</a>
-</div>
+  <!-- نافذة تكبير الصورة -->
+  <div id="imagePreview" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.95); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
+    <img id="previewImg" src="" alt="Preview" style="max-width:90vw; max-height:80vh; border-radius:20px; box-shadow:0 0 20px violet;">
+    <a id="downloadBtn" href="#" download style="margin-top:20px; padding:10px 20px; background:violet; color:white; border:none; border-radius:10px; font-size:16px; text-decoration:none; animation:pulse 1.5s infinite;">تحميل الصورة</a>
+  </div>
 
-<!-- 👑 سكربت التكبير -->
-<script>
-  const preview = document.getElementById('imagePreview');
-  const img = document.getElementById('previewImg');
-  const downloadBtn = document.getElementById('downloadBtn');
+  <!-- سكربت التكبير -->
+  <script>
+    const preview = document.getElementById('imagePreview');
+    const img = document.getElementById('previewImg');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-  document.querySelectorAll('img').forEach(function(image) {
-    image.addEventListener('click', function() {
-      img.src = this.src;
-      downloadBtn.href = this.src;
-      preview.style.display = 'flex';
+    document.querySelectorAll('img').forEach(function(image) {
+      image.addEventListener('click', function() {
+        img.src = this.src;
+        downloadBtn.href = this.src;
+        preview.style.display = 'flex';
+      });
     });
-  });
 
-  // إغلاق عند الضغط على الخلفية
-  preview.addEventListener('click', function(e) {
-    if (e.target === preview) {
-      preview.style.display = 'none';
+    preview.addEventListener('click', function(e) {
+      if (e.target === preview) {
+        preview.style.display = 'none';
+      }
+    });
+  </script>
+
+  <!-- دالة الانتقال الذكية -->
+  <script>
+    function goTo(type) {
+      if (type === 'video') {
+        window.location.href = "index-videos.html";
+      } else if (type === 'blog') {
+        window.location.href = "index-txt.html";
+      }
     }
-  });
-</script>
+  </script>
 
-<!-- 👑 تأثير نابض للزر -->
-<style>
-  #imagePreview {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.95);
-    z-index: 9999;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 5px red; }
-    50% { box-shadow: 0 0 15px red; }
-    100% { box-shadow: 0 0 5px red; }
-  }
-</style>
-</div>
-<script>
-  function goTo(type) {
-    if (type === 'video') {
-      window.location.href = "index-videos.html";
-    } else if (type === 'blog') {
-      window.location.href = "index-txt.html";
+  <!-- تأثير نابض للزر -->
+  <style>
+    #imagePreview {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
-  }
-</script>
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 5px red; }
+      50% { box-shadow: 0 0 15px red; }
+      100% { box-shadow: 0 0 5px red; }
+    }
+  </style>
+
 </body>
 </html>
-
